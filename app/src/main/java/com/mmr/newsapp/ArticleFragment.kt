@@ -1,8 +1,11 @@
 package com.mmr.newsapp
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.*
 import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 
 class ArticleFragment : Fragment() {
@@ -25,6 +28,7 @@ class ArticleFragment : Fragment() {
     }
 
     lateinit var articleWebView: WebView
+    lateinit var progressBar : ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,6 +39,7 @@ class ArticleFragment : Fragment() {
         setHasOptionsMenu(true)
 
         articleWebView = rootView.findViewById(R.id.article_webview)
+        progressBar = rootView.findViewById(R.id.article_loading)
 
         arguments?.let {
             articleUrl = it.getString(ARG_ARTICLE_URL,"")
@@ -42,6 +47,22 @@ class ArticleFragment : Fragment() {
         }
 
         activity?.supportActionBar?.title = articleTitle
+
+        articleWebView.webViewClient = object : WebViewClient() {
+
+            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                view.visibility = View.INVISIBLE
+                progressBar.visibility = View.VISIBLE
+            }
+
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                view.visibility = View.VISIBLE
+                progressBar.visibility = View.INVISIBLE
+            }
+
+        }
 
         articleWebView.loadUrl(articleUrl)
 

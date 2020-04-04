@@ -10,8 +10,10 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testDateUtil() {
+        assertEquals("Sat, 4 Apr 2020 10:30", DateUtil.prettifyDate("2020-04-04T10:30:11Z"))
     }
+
 }

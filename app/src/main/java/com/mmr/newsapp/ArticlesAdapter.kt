@@ -1,5 +1,7 @@
 package com.mmr.newsapp
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mmr.newsapp.ArticleResponse.Article
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-/**
- * Created by Belal on 6/19/2017.
- */
 
 class ArticlesAdapter(val listener: OnArticleListener) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
@@ -38,7 +41,7 @@ class ArticlesAdapter(val listener: OnArticleListener) : RecyclerView.Adapter<Ar
         notifyDataSetChanged()
     }
 
-    //the class is hodling the list view
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(article: Article) {
             val image = itemView.findViewById(R.id.article_image) as ImageView
@@ -46,14 +49,11 @@ class ArticlesAdapter(val listener: OnArticleListener) : RecyclerView.Adapter<Ar
             val date  = itemView.findViewById(R.id.article_date) as TextView
             title.text = article.title
             date.text = article.publishedAt
-            Glide.with(itemView.context).load(article.urlToImage).into(image)
-            itemView.setOnClickListener{
-
-            }
+            Glide.with(itemView.context).load(article.urlToImage).placeholder(ColorDrawable(Color.LTGRAY)).into(image)
         }
     }
 
-    interface OnArticleListener{
+    interface OnArticleListener {
         fun onArticleClick(position: Int)
     }
 }

@@ -41,6 +41,7 @@ class NewsListFragment : Fragment(), ArticlesAdapter.OnArticleListener {
                 Log.d("asd", "success")
                 if (response.code() == 200) {
                     articles = response.body()!!.articles
+                    articles?.map { it.publishedAt = DateUtil.prettifyDate(it.publishedAt) }
                     adapter.setArticles(articles)
                 }
             }
